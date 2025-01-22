@@ -20,13 +20,13 @@ func (m *Merry) Start() error {
 	}
 	composePath := filepath.Join(home, ".merry", "docker-compose.yml")
 
-	bashCmd := runDockerCompose(composePath, "up", "-d", "cobi", "esplora", "ethereum-explorer", "arbitrum-explorer", "nginx", "garden-evm-watcher", "garden-db", "quote", "bit-ponder", "cobiv2", "relayer", "solana-validator", "virtual-balance", "solana-executor", "solana-relayer", "solana-watcher", "bit-indexer")
+	bashCmd := runDockerCompose(composePath, "up", "-d", "cobi", "esplora", "ethereum-explorer", "arbitrum-explorer", "nginx", "garden-evm-watcher", "garden-db", "quote", "bit-ponder", "cobiv2", "relayer", "solana-validator", "virtual-balance", "solana-executor", "solana-relayer", "solana-watcher", "bit-indexer","dozzle")
 	if m.IsHeadless && m.IsBare {
-		bashCmd = runDockerCompose(composePath, "up", "-d", "chopsticks", "ethereum", "arbitrum", "cosigner")
+		bashCmd = runDockerCompose(composePath, "up", "-d", "chopsticks", "ethereum", "arbitrum", "cosigner","dozzle")
 	} else if m.IsHeadless {
-		bashCmd = runDockerCompose(composePath, "up", "-d", "chopsticks", "cobi", "cosigner")
+		bashCmd = runDockerCompose(composePath, "up", "-d", "chopsticks", "cobi", "cosigner","dozzle")
 	} else if m.IsBare {
-		bashCmd = runDockerCompose(composePath, "up", "-d", "chopsticks", "ethereum-explorer", "arbitrum-explorer", "cosigner")
+		bashCmd = runDockerCompose(composePath, "up", "-d", "chopsticks", "ethereum-explorer", "arbitrum-explorer", "cosigner","dozzle")
 	}
 	bashCmd.Stdout = os.Stdout
 	bashCmd.Stderr = os.Stderr
@@ -73,5 +73,8 @@ func (m *Merry) Start() error {
 		_, err := localnet.EVMClient()
 		return err
 	})
+	fmt.Println("Check Services logs at localhost:9999")
+
 	return nil
+
 }
